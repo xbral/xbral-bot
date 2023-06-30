@@ -300,12 +300,13 @@ export async function initBrowser(
     if (options.browserWS && options.browserWS !== '') {
       return await puppeteer.connect({ browserWSEndpoint: options.browserWS });
     } else {
-      console.log('aqui');
-      const browser = await puppeteer.launch({
+      console.log('orange ::: browser.ts 303');
+      return await puppeteer.launch({
         executablePath,
-        headless: 'new'
+        headless: 'new',
+        options: launchOptions
       });
-      return await puppeteer.launch(launchOptions);
+      // return await puppeteer.launch(launchOptions);
     }
   } catch (e) {
     console.error(e);
