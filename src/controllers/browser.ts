@@ -304,7 +304,7 @@ export async function initBrowser(
       return await puppeteer.launch({
         executablePath,
         headless: 'new',
-        options: launchOptions
+        launchOptions
       });
       // return await puppeteer.launch(launchOptions);
     }
