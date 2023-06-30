@@ -292,6 +292,7 @@ export async function initBrowser(
     const launchOptions = {
       headless: options.headless,
       devtools: options.devtools,
+      executablePath,
       args: options.browserArgs ?? puppeteerConfig.chromiumArgs,
       ...options.puppeteerOptions,
       ...extras
@@ -301,11 +302,7 @@ export async function initBrowser(
       return await puppeteer.connect({ browserWSEndpoint: options.browserWS });
     } else {
       console.log('orange ::: browser.ts 303');
-      return await puppeteer.launch({
-        executablePath,
-        headless: 'new',
-        launchOptions
-      });
+      return await puppeteer.launch(launchOptions);
       // return await puppeteer.launch(launchOptions);
     }
   } catch (e) {
