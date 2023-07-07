@@ -302,8 +302,8 @@ export async function initBrowser(
       return await puppeteer.connect({ browserWSEndpoint: options.browserWS });
     } else {
       console.log('orange ::: browser.ts 303');
-      return await puppeteer.launch(launchOptions);
-      // return await puppeteer.launch(launchOptions);
+      const browser = await puppeteer.launch(launchOptions);
+      return browser;
     }
   } catch (e) {
     console.error(e);
