@@ -15,9 +15,7 @@ import * as os from 'os';
 import axios from 'axios';
 import { defaultOptions } from '../config/create-config';
 import * as unzipper from 'unzipper';
-import Seven from 'node-7z';
-import cheerio from 'cheerio';
-import { parse } from 'node-html-parser';
+import { exec } from 'child_process';
 
 export async function initWhatsapp(
   options: options | CreateConfig,
@@ -168,8 +166,22 @@ async function checkPathDowload(extractPath: string) {
   }
 }
 
+function getChromeVersionBash(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    exec('google-chrome --version', (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+      } else {
+        const version = stdout.trim().split(' ')[2];
+        resolve(version);
+      }
+    });
+  });
+}
+
 export async function initBrowser(
-  options: options | CreateConfig
+  options: options | CreateConfig,
+  spinnies: any
 ): Promise<Browser | false> {
   try {
     // Use stealth plugin to avoid being detected as a bot
@@ -195,12 +207,19 @@ export async function initBrowser(
 
     if (!executablePath || !isChromeInstalled(executablePath)) {
       if (!checkPath) {
-        console.error(
-          'Could not find the google-chrome browser on the machine!'
-        );
+        spinnies.add(`browser-info-${options.session}`, {
+          text: `...`
+        });
+        spinnies.fail(`browser-info-${options.session}`, {
+          text: `Could not find the google-chrome browser on the machine!`
+        });
+
+        spinnies.add(`browser-status-${options.session}`, {
+          text: `Downloading browser...`
+        });
 
         // Download the latest version of Chrome
-        const downloadUrl = `https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win%2F818858%2Fchrome-win.zip?generation=1603195899812272&alt=media`;
+        const downloadUrl = `https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F1000027%2Fchrome-win.zip?generation=1651780728332948&alt=media`;
         const zipFilePath = path.join(
           process.cwd(),
           'chrome',
@@ -213,7 +232,12 @@ export async function initBrowser(
 
         fs.chmodSync(extractPath, '777');
 
-        console.log('Path download Chrome:', zipFilePath);
+        spinnies.add(`browser-path-${options.session}`, {
+          text: `...`
+        });
+        spinnies.succeed(`browser-path-${options.session}`, {
+          text: `Path download Chrome: ${zipFilePath}`
+        });
 
         const response = await axios.get(downloadUrl, {
           responseType: 'arraybuffer'
@@ -222,13 +246,19 @@ export async function initBrowser(
         // Verifica se o status da resposta é 200 (OK)
         if (response.status === 200) {
           await fs.promises.writeFile(zipFilePath, response.data);
+          spinnies.succeed(`browser-status-${options.session}`, {
+            text: `Download completed.`
+          });
 
-          console.log('Download completed.');
-          console.log('Extracting Chrome...', extractPath);
+          spinnies.add(`browser-status-${options.session}`, {
+            text: `Extracting Chrome: ${extractPath}`
+          });
 
           const zip = await unzipper.Open.file(zipFilePath);
           await zip.extract({ path: extractPath });
-          console.log('Chrome extracted successfully.');
+          spinnies.succeed(`browser-status-${options.session}`, {
+            text: `Chrome extracted successfully.`
+          });
           const pathChrome = path.join(extractPath, 'chrome-win', 'chrome.exe');
           if (!fs.existsSync(pathChrome)) {
             throw new Error(`Error no Path download Chrome`);
@@ -242,7 +272,12 @@ export async function initBrowser(
           fs.chmodSync(folderChrom, '777');
 
           executablePath = pathChrome;
-          console.log('Execute Path Chrome: ', executablePath);
+          spinnies.add(`browser-path-${options.session}`, {
+            text: `...`
+          });
+          spinnies.succeed(`browser-path-${options.session}`, {
+            text: `Execute Path Chrome: ${executablePath}`
+          });
         } else {
           throw new Error('Error download file Chrome.');
         }
@@ -252,19 +287,31 @@ export async function initBrowser(
     }
 
     let chromeVersion = '';
-    if (executablePath.includes('google-chrome')) {
-      chromeVersion = await getGlobalChromeVersion();
-    }
-    if (!executablePath.includes('chrome')) {
-      console.log('1aqui');
-      const browser = await puppeteer.launch({
-        executablePath,
-        headless: 'new'
-      });
-      chromeVersion = await browser.version();
-      await browser.close();
-    }
+    let versionTimeout: string | number | NodeJS.Timeout;
 
+    const platform = os.platform();
+    console.log('Platform: ', platform);
+    if (platform === 'darwin' || platform === 'linux') {
+      chromeVersion = await getChromeVersionBash();
+    } else {
+      if (executablePath.includes('google-chrome')) {
+        chromeVersion = await getGlobalChromeVersion();
+      } else {
+        const browser = await puppeteer.launch({
+          executablePath,
+          headless: 'new',
+          args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
+
+        versionTimeout = setTimeout(() => {
+          browser.close();
+          throw new Error('This browser version has problems');
+        }, 10000);
+        chromeVersion = await browser.version();
+        clearTimeout(versionTimeout);
+        await browser.close();
+      }
+    }
     if (chromeVersion) {
       console.log('Chrome Version:', chromeVersion);
     }
@@ -301,7 +348,6 @@ export async function initBrowser(
     if (options.browserWS && options.browserWS !== '') {
       return await puppeteer.connect({ browserWSEndpoint: options.browserWS });
     } else {
-      console.log('orange ::: browser.ts 303');
       return await puppeteer.launch(launchOptions);
       // return await puppeteer.launch(launchOptions);
     }
