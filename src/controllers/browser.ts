@@ -187,6 +187,8 @@ export async function initBrowser(
     // Use stealth plugin to avoid being detected as a bot
     puppeteer.use(StealthPlugin());
 
+    await ChromeLauncher.killAll();
+
     const checkFolder = folderSession(options);
     if (!checkFolder) {
       throw new Error(`Error executing client session info`);
