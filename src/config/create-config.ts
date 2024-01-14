@@ -15,9 +15,9 @@ export interface CreateConfig {
   mkdirFolderToken?: string;
   /**
    * Headless chrome
-   * @default true
+   * @default "old"
    */
-  headless?: false | 'new';
+  headless?: false | 'new' | 'old';
   /**
    * Open devtools by default
    * @default false
@@ -122,12 +122,17 @@ export interface CreateConfig {
    * @default null
    */
   userPass?: string;
+  /**
+   * Browser executable path
+   * @default null
+   */
+  browserPathExecutable?: string;
 }
 
 export const defaultOptions: CreateConfig = {
   folderNameToken: 'tokens',
   mkdirFolderToken: '',
-  headless: 'new',
+  headless: 'old',
   devtools: false,
   debug: false,
   logQR: true,
@@ -145,5 +150,6 @@ export const defaultOptions: CreateConfig = {
   forceConnect: false,
   attemptsForceConnectLoad: 5,
   forceConnectTime: 5000,
-  addProxy: []
+  addProxy: [],
+  browserPathExecutable: null
 };

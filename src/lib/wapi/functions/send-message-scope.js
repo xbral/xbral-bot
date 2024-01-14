@@ -54,6 +54,16 @@ export async function sendMessage(to, body, options = {}) {
       options.type === typesObj.sendImage ||
       options.type === typesObj.sendImageFromBase64
     ) {
+      const chatWid = new Store.WidFactory.createWid(to);
+      await Store.Chat.add(
+        {
+          createdLocally: true,
+          id: chatWid
+        },
+        {
+          merge: true
+        }
+      );
       let result = await Store.Chat.find(chat.id);
       const mediaBlob = WAPI.base64ToFile(body);
       const mc = await WAPI.processFiles(result, mediaBlob);
@@ -118,7 +128,7 @@ export async function sendMessage(to, body, options = {}) {
       const result = (
         await Promise.all(Store.addAndSendMsgToChat(chat, message))
       )[1];
-      if (result === 'OK') {
+      if (result === 'OK' || result.messageSendResult === 'OK') {
         return WAPI.scope(newMsgId, false, result, null, options.type, body);
       }
       throw result;

@@ -1,5 +1,10 @@
 # 🕷Venom Bot🕸
 
+## Help Keep This Project Going
+With your support, we can sustain this project. If you use this project for work, know that you can contribute financially to its success!
+<br>
+<a href='https://www.paypal.com/donate/?hosted_button_id=YRGDGS6FDLUDL'><img src='https://github.com/orkestral/venom/blob/master/img/Donate-now-button-blue.png' height='117' alt='Donate' /></a>
+
 [![npm version](https://img.shields.io/npm/v/venom-bot.svg?color=green)](https://www.npmjs.com/package/venom-bot)
 ![node](https://img.shields.io/node/v/venom-bot)
 [![Downloads](https://img.shields.io/npm/dm/venom-bot.svg)](https://www.npmjs.com/package/venom-bot)
@@ -179,9 +184,10 @@ venom
     },
     // options
     {
+      browserPathExecutable: '', // browser executable path
       folderNameToken: 'tokens', //folder name when saving tokens
       mkdirFolderToken: '', //folder directory tokens, just inside the venom folder, example:  { mkdirFolderToken: '/node_modules', } //will save the tokens folder in the node_modules directory
-      headless: true, // you should no longer use boolean false or true, now use false, true or 'new' learn more https://developer.chrome.com/articles/new-headless/
+      headless: 'new', // you should no longer use boolean false or true, now use false, true or 'new' learn more https://developer.chrome.com/articles/new-headless/
       devtools: false, // Open devtools by default
       debug: false, // Opens a debug session
       logQR: true, // Logs QR automatically in terminal
@@ -407,7 +413,7 @@ const buttons = [
       }
     }
   ]
-await client.sendButtons('000000000000@c.us', 'Title', buttons, 'Description')
+await client.sendButtons('000000000000@c.us', 'Title', 'Description', buttons)
   .then((result) => {
     console.log('Result: ', result); //return object success
   })
@@ -633,9 +639,6 @@ await client.sendSeen('000000000000@c.us');
 
 // Start typing...
 await client.startTyping('000000000000@c.us');
-
-// Stop typing
-await client.stopTyping('000000000000@c.us');
 
 // Set chat state (0: Typing, 1: Recording, 2: Paused)
 await client.setChatState('000000000000@c.us', 0 | 1 | 2);

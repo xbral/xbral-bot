@@ -145,7 +145,7 @@ export async function create(
       sessionOrOption.replace(/\s/g, '').length
     ) {
       session = sessionOrOption.replace(/\s/g, '');
-      options = { session };
+      options['session'] = session;
     } else if (typeof sessionOrOption === 'object') {
       session = sessionOrOption.session || session;
       catchQR = sessionOrOption.catchQR || catchQR;
@@ -154,19 +154,38 @@ export async function create(
       options = sessionOrOption;
     }
 
+    const spinnies = getSpinnies({
+      disableSpins: options ? options.disableSpins : false
+    });
+
+    spinnies.add(`donate-${session}`, {
+      text: `....`
+    });
+
+    spinnies.fail(`donate-${session}`, {
+      text: `Help Keep This Project Going! Know more: https://github.com/orkestral/venom/blob/master/docs/getting-started/donate.md`
+    });
+
+    spinnies.add(`node-version-${session}`, {
+      text: `check nodeJs version...`
+    });
+
     const requiredNodeVersion = 16;
     const currentNodeVersion = Number(process.versions.node.split('.')[0]);
     if (currentNodeVersion < requiredNodeVersion) {
+      spinnies.fail(`node-version-${session}`, {
+        text: `update Node.js, the version you are using doesn't work for this system!`
+      });
       return reject(
         `Outdated Node.js version. Node.js ${requiredNodeVersion} or higher is required. Please update Node.js.`
       );
     }
 
-    await checkUpdates();
-
-    const spinnies = getSpinnies({
-      disableSpins: options ? options.disableSpins : false
+    spinnies.succeed(`node-version-${session}`, {
+      text: `Node.js version verified successfully!`
     });
+
+    await checkUpdates();
 
     const mergedOptions = { ...defaultOptions, ...options };
 
@@ -187,7 +206,10 @@ export async function create(
       });
     }
 
-    const browser: Browser | boolean = await initBrowser(mergedOptions);
+    const browser: Browser | boolean = await initBrowser(
+      mergedOptions,
+      spinnies
+    );
 
     if (typeof browser === 'boolean') {
       spinnies.fail(`browser-${session}`, {
@@ -341,6 +363,7 @@ export async function create(
               spinnies.fail(`whatzapp-disconnected-${session}`, {
                 text: 'Was disconnected!'
               });
+              document.querySelectorAll('.MLTJU p')[0].textContent;
               statusFind && statusFind('desconnected', session);
             }
 
@@ -382,7 +405,10 @@ export async function create(
             const mode = await page
               .evaluate(() => window?.Store?.Stream?.mode)
               .catch(() => {});
-            if (mode === InterfaceMode.QR) {
+            if (
+              mode === InterfaceMode.QR
+              // && checkFileJson(mergedOptions, session)
+            ) {
               if (statusFind) {
                 spinnies.add(`whatzapp-qr-${session}`, {
                   text: 'check....'
@@ -400,8 +426,22 @@ export async function create(
       client
         .onStateChange(async (state) => {
           if (state === SocketState.PAIRING) {
-            if (statusFind) {
-              statusFind('deviceNotConnected', session);
+            const device: Boolean = await page
+              .evaluate(() => {
+                if (
+                  document.querySelector('[tabindex="-1"]') &&
+                  window?.Store?.Stream?.mode === InterfaceMode.SYNCING &&
+                  window?.Store?.Stream?.obscurity === 'SHOW'
+                ) {
+                  return true;
+                }
+                return false;
+              })
+              .catch(() => undefined);
+            if (device === true) {
+              if (statusFind) {
+                statusFind('deviceNotConnected', session);
+              }
             }
           }
         })
@@ -453,6 +493,12 @@ export async function create(
       await page
         .waitForSelector('#app .two', { visible: true })
         .catch(() => {});
+
+      try {
+        spinnies.succeed(`whatzapp-intro-${session}`, {
+          text: 'Successfully connected!'
+        });
+      } catch {}
 
       await client.initService();
       await client.addChatWapi();

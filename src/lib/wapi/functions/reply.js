@@ -81,7 +81,11 @@ export async function reply(chatId, content, quotedMessageId) {
       await Promise.all(window.Store.addAndSendMsgToChat(chat, message))
     )[1];
 
-    if (result === 'success' || result === 'OK') {
+    if (
+      result === 'success' ||
+      result === 'OK' ||
+      result.messageSendResult === 'OK'
+    ) {
       let obj = WAPI.scope(newMsgId, false, result, '');
       Object.assign(obj, m);
       return obj;

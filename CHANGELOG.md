@@ -1,3 +1,175 @@
+## [5.0.22](https://github.com/orkestral/venom/compare/v5.0.21...v5.0.22) (2023-10-05)
+
+
+### Features
+
+* version ([4a6114e](https://github.com/orkestral/venom/commit/4a6114e56cdcc7ee36940126b001dfe7a97c9156))
+
+
+
+## [5.0.21](https://github.com/orkestral/venom/compare/v5.0.20...v5.0.21) (2023-09-14)
+
+
+### Bug Fixes
+
+* lint ([a8e755d](https://github.com/orkestral/venom/commit/a8e755d549fca8cc831a583cdee85794d990c7ad))
+* url donate ([f8568da](https://github.com/orkestral/venom/commit/f8568da1f0ebfa25cf2766312656c75b880c41a8))
+* url donate ([78f5979](https://github.com/orkestral/venom/commit/78f5979b74d57fa202a0664dce896e9537503414))
+
+
+### Features
+
+* donate info ([bf69543](https://github.com/orkestral/venom/commit/bf69543880d4fce0df1d069e29a5449f2d31f126))
+* img donate ([3675e55](https://github.com/orkestral/venom/commit/3675e551ccbf59e93e4a59cf7086633687598171))
+* lint setup-node@v2 ([e346488](https://github.com/orkestral/venom/commit/e346488dcde8861a5773524c498c85390b7153db))
+* node version 16 ([2d2e010](https://github.com/orkestral/venom/commit/2d2e010418bce657ffa98bd89c50af3edf5559f5))
+* setup-node@v2 ([e96afb2](https://github.com/orkestral/venom/commit/e96afb2a9d6a62d0a2de918840de5a1cd47f1dc5))
+* Update README.md ([dab3d17](https://github.com/orkestral/venom/commit/dab3d1770363d4427879621b7c17169912322db9))
+* Update README.md donate ([994e9c7](https://github.com/orkestral/venom/commit/994e9c705b67317eddb55349d69dd5266e72cda5))
+
+
+
+## [5.0.20](https://github.com/orkestral/venom/compare/v5.0.19...v5.0.20) (2023-09-06)
+
+
+### Bug Fixes
+
+* deleteMessage ([2608239](https://github.com/orkestral/venom/commit/26082393b1fa95cb2e2463ede56a1fbf08716798))
+
+
+### Features
+
+* add types ts ([05d6b72](https://github.com/orkestral/venom/commit/05d6b72a654c72529d38dfb8b5bd4903937e6be0))
+* messageSendResult ([873b0b6](https://github.com/orkestral/venom/commit/873b0b61db16b841916905fdbb3a1d280b1cee79))
+* writeFile SingletonLock ([25c56d4](https://github.com/orkestral/venom/commit/25c56d4cf22e8fc06fa8a2aeb15682dae5585e42))
+
+
+
+## [5.0.19](https://github.com/orkestral/venom/compare/v5.0.18...v5.0.19) (2023-08-23)
+
+
+### Features
+
+* add headless: 'old' ([bc919e8](https://github.com/orkestral/venom/commit/bc919e8f740496a1d34078916f8e8df860d26daa))
+
+
+
+## [5.0.18](https://github.com/orkestral/venom/compare/v5.0.17...v5.0.18) (2023-08-23)
+
+
+### Bug Fixes
+
+* message Send Result - (reading 'error') ([7d14c87](https://github.com/orkestral/venom/commit/7d14c87bffe76a5d98060ce6ccd43f0a7da2aa52))
+* remove  Create Release ([a6f10f6](https://github.com/orkestral/venom/commit/a6f10f63cdf2e2ae03e3cb85883995dd03b5a613))
+
+
+### Features
+
+* add spinnies info ([bbc4c38](https://github.com/orkestral/venom/commit/bbc4c3869927e0e6e8af5538ae6237cc2b286fc2))
+
+
+
+## [5.0.17](https://github.com/orkestral/venom/compare/v5.0.16...v5.0.17) (2023-08-11)
+
+
+### Bug Fixes
+
+* chromium version ([e692b48](https://github.com/orkestral/venom/commit/e692b4804e53604bdf33d8e2a86efc378c66f36d))
+* error r.findImpl is not function ([9c7d5f3](https://github.com/orkestral/venom/commit/9c7d5f35f15849c11a5c732b678f238e4b801fee))
+* QRCode Scan terminal ([33d8d50](https://github.com/orkestral/venom/commit/33d8d50e2366e17e64347f472c995d99a5bb0909))
+
+
+### Features
+
+* remove npm publish ([ce117a7](https://github.com/orkestral/venom/commit/ce117a7104a71b5dd2c63e1169bf7ce43677a8b5))
+* set timeout page ([817945f](https://github.com/orkestral/venom/commit/817945f256effca3cf831a75f757aa2865f307e5))
+
+
+
+## [5.0.16](https://github.com/orkestral/venom/compare/v5.0.15...v5.0.16) (2023-08-03)
+
+
+### Bug Fixes
+
+* npm install ([e6eccd6](https://github.com/orkestral/venom/commit/e6eccd6817fc9c3b7a8fffeacc33e7d3918d4656))
+* tsconfig.json ([1a98b89](https://github.com/orkestral/venom/commit/1a98b89e8b336f103c5dbd4fb27113ce72f2ff5b))
+
+
+
+## [5.0.15](https://github.com/orkestral/venom/compare/v5.0.14...v5.0.15) (2023-08-03)
+
+
+### Bug Fixes
+
+* is-admin ([3d47967](https://github.com/orkestral/venom/commit/3d479674a0bb0301f4d3673ce1a0a98cda57e6a9))
+
+
+
+## [5.0.14](https://github.com/orkestral/venom/compare/v5.0.13...v5.0.14) (2023-08-01)
+
+
+### Bug Fixes
+
+* add `npm-check-updates` as dependencies ([3ba733f](https://github.com/orkestral/venom/commit/3ba733f9da96c6a1ed6600a3fa2d3c20d018e37c))
+* add argsRoot ([089db66](https://github.com/orkestral/venom/commit/089db66d4f9a4d8638dc071571d4c451aa2b8c72))
+* remove npm ci ([8db4b93](https://github.com/orkestral/venom/commit/8db4b934ed83b1c9602e7915e7e2af035f32db0c))
+
+
+
+## [5.0.13](https://github.com/orkestral/venom/compare/v5.0.12...v5.0.13) (2023-07-23)
+
+
+### Bug Fixes
+
+* Error removing SingletonLock ([fd6b316](https://github.com/orkestral/venom/commit/fd6b316e1e1dd7462cbbba9eb4080875d6613759))
+* in NPM ([dc52d4a](https://github.com/orkestral/venom/commit/dc52d4a28cbd74d312cd43aa0d96bba8d9038c81))
+* npm check updates ([68aa57c](https://github.com/orkestral/venom/commit/68aa57c85aad56773e9ff2769e8362241a58ee9a))
+
+
+
+## [5.0.12](https://github.com/orkestral/venom/compare/v5.0.11...v5.0.12) (2023-07-21)
+
+
+### Bug Fixes
+
+* browser does not open when there are token files ([77909a5](https://github.com/orkestral/venom/commit/77909a54ca5d07a8e9b5d19ed416d8dd493d85ed))
+* Check if version exists ([8348640](https://github.com/orkestral/venom/commit/8348640973417df3056755c5ec8821f30f288fcc))
+* Chrome path darwin ([2b434c2](https://github.com/orkestral/venom/commit/2b434c24227dc95a54521d585e20849c92a35c0a))
+* sendLinkPreview interim ([d66b4f8](https://github.com/orkestral/venom/commit/d66b4f80cc374da7316200830a7e91478b3d5f45))
+
+
+### Features
+
+* add errors and promise to SingletonLock ([25b3fa8](https://github.com/orkestral/venom/commit/25b3fa8e6b40e7841e8381f2ec65f4aaa45a7688))
+* Apply Bug Fixes and Features ([32a36a5](https://github.com/orkestral/venom/commit/32a36a540caab689ed3304c278c08d58aedf486d))
+* browser executable path ([451dbfa](https://github.com/orkestral/venom/commit/451dbfab5f3bc74a8ce4393cbf4349b20ea56713))
+* chrome Version bash ([bb76bb2](https://github.com/orkestral/venom/commit/bb76bb22892844d5091f8827f7d5d5fde458681d))
+* downloadBash linux and darwin ([d4914b4](https://github.com/orkestral/venom/commit/d4914b4c8387ba400c6e649aa6aaf59ebcf8ea74))
+* get version: headless ([e04f2d4](https://github.com/orkestral/venom/commit/e04f2d4b492c42f59abf0024040a3946e2c5ffce))
+* release headless: true ([dc90954](https://github.com/orkestral/venom/commit/dc90954773a3b248d2e4064feffe8d6c3a53cef7))
+
+
+
+## [5.0.11](https://github.com/orkestral/venom/compare/v5.0.7...v5.0.11) (2023-07-03)
+
+
+### Bug Fixes
+
+* getAllContacts ([4f98590](https://github.com/orkestral/venom/commit/4f9859066add6dbd5ebc9ba39fcde0da2f078225))
+* Group Link ([98ade84](https://github.com/orkestral/venom/commit/98ade8416b326b467ff50c3ee5f874ac03d0fab6))
+* Query Group Store ([5a44a29](https://github.com/orkestral/venom/commit/5a44a29bedf2ce97d23e642ae1e4a533891c231b))
+* remove createWid ([5e8da45](https://github.com/orkestral/venom/commit/5e8da457315497b258c3cccc38560e8105b1c3ac))
+
+
+### Features
+
+* dowload ([e1ef845](https://github.com/orkestral/venom/commit/e1ef8456d56fa7372f524ba4f35d9c28450f11e4))
+* download Chrome ([777cd44](https://github.com/orkestral/venom/commit/777cd4459c7f861955873a3727b9e2e8a1a06d42))
+* getChrome ([8b98eba](https://github.com/orkestral/venom/commit/8b98eba3e4018297cb2d50ff574580cba7ff8c9f))
+* refactoring chrome download ([4623eed](https://github.com/orkestral/venom/commit/4623eedbdb39a9e30aeb75324d3eae245b8111a8))
+
+
+
 ## [5.0.7](https://github.com/orkestral/venom/compare/v5.0.6...v5.0.7) (2023-06-19)
 
 

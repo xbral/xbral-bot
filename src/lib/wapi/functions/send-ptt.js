@@ -44,7 +44,16 @@ export async function sendPtt(
     if (!newMsgId) {
       return WAPI.scope(chat.id, true, 404, 'Error to newId');
     }
-
+    const chatWid = new Store.WidFactory.createWid(chatid);
+    await Store.Chat.add(
+      {
+        createdLocally: true,
+        id: chatWid
+      },
+      {
+        merge: true
+      }
+    );
     let result = await Store.Chat.find(chat.id)
       .then(async (chat) => {
         const mediaBlob = base64ToFile(Base64);
@@ -152,7 +161,11 @@ export async function sendPtt(
       return result;
     }
 
-    if (result === 'success' || result === 'OK') {
+    if (
+      result === 'success' ||
+      result === 'OK' ||
+      result.messageSendResult === 'OK'
+    ) {
       let obj = WAPI.scope(newMsgId, false, result, null);
       Object.assign(obj, m);
       return obj;

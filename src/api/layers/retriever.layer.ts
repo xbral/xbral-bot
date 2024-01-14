@@ -2,10 +2,7 @@ import { Page, Browser } from 'puppeteer';
 import { CreateConfig } from '../../config/create-config';
 import { WhatsappProfile } from '../model';
 import { SenderLayer } from './sender.layer';
-import { Scope, checkValuesSender } from '../helpers/layers-interface';
-import internal = require('stream');
-
-let obj: Scope;
+import { checkValuesSender } from '../helpers/layers-interface';
 
 export class RetrieverLayer extends SenderLayer {
   constructor(
@@ -221,7 +218,7 @@ export class RetrieverLayer extends SenderLayer {
    * @returns contact detial as promise
    */
   public async getChatById(contactId: string) {
-    return this.page.evaluate(
+    return await this.page.evaluate(
       (contactId) => WAPI.getChatById(contactId),
       contactId
     );
@@ -234,7 +231,7 @@ export class RetrieverLayer extends SenderLayer {
    * @deprecated
    */
   public async getChat(contactId: string) {
-    return this.getChatById(contactId);
+    return await this.getChatById(contactId);
   }
 
   /**

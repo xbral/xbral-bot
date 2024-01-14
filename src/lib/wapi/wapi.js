@@ -7,6 +7,7 @@ import {
   getBlockList,
   clearChatMessages,
   createGroup,
+  createNewsletter,
   deleteConversation,
   deleteMessages,
   demoteParticipant,
@@ -275,6 +276,9 @@ if (typeof window.WAPI === 'undefined') {
   window.WAPI.setGroupTitle = setGroupTitle;
   window.WAPI.setGroupSettings = setGroupSettings;
 
+  //Newsletter functions
+  window.WAPI.createNewsletter = createNewsletter;
+
   // Chatting functions
   window.WAPI.sendChatstate = sendChatstate;
   window.WAPI.sendMessageWithThumb = sendMessageWithThumb;
@@ -399,7 +403,7 @@ if (typeof window.WAPI === 'undefined') {
       mentioned = [mentioned];
     }
 
-    const chat = WAPI.getChat(chatId);
+    const chat = await WAPI.getChat(chatId);
     const users = await Store.Contact.serialize().filter((x) =>
       mentioned.includes(x.id.user)
     );

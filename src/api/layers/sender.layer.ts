@@ -5,7 +5,8 @@ import {
   base64MimeType,
   downloadFileToBase64,
   fileToBase64,
-  stickerSelect
+  stickerSelect,
+  dowloadMetaFileBase64
 } from '../helpers';
 import { filenameFromMimeType } from '../helpers/filename-from-mimetype';
 import { Message, SendFileResult, SendStickerResult } from '../model';
@@ -431,7 +432,8 @@ export class SenderLayer extends ListenerLayer {
   public async sendLinkPreview(
     chatId: string,
     url: string,
-    title: string
+    title: string,
+    message: string,
   ): Promise<object> {
     return new Promise(async (resolve, reject) => {
       const typeFunction = 'sendLinkPreview';
@@ -457,17 +459,25 @@ export class SenderLayer extends ListenerLayer {
           value: title,
           function: typeFunction,
           isUser: false
+        },
+        {
+          param: 'message',
+          type: type,
+          value: message,
+          function: typeFunction,
+          isUser: false
         }
       ];
       const validating = checkValuesSender(check);
       if (typeof validating === 'object') {
         return reject(validating);
       }
+      const thumbnail = await dowloadMetaFileBase64(url);
       const result = await this.page.evaluate(
-        ({ chatId, url, title }) => {
-          return WAPI.sendLinkPreview(chatId, url, title);
+        ({ chatId, url, title, message, thumbnail }) => {
+          return WAPI.sendLinkPreview(chatId, url, title, message, thumbnail);
         },
-        { chatId, url, title }
+        { chatId, url, title, message, thumbnail }
       );
       if (result['erro'] == true) {
         return reject(result);
@@ -707,7 +717,7 @@ export class SenderLayer extends ListenerLayer {
     description: string,
     chatId: string
   ) {
-    return this.page.evaluate(
+    return await this.page.evaluate(
       ({ thumb, url, title, description, chatId }) => {
         WAPI.sendMessageWithThumb(thumb, url, title, description, chatId);
       },
