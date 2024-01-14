@@ -77,7 +77,11 @@ export async function sendContactVcardList(chatId, contacts) {
 
     var m = { from: contacts, type: 'multi_vcard' };
 
-    if (result === 'success' || result === 'OK') {
+    if (
+      result === 'success' ||
+      result === 'OK' ||
+      result.messageSendResult === 'OK'
+    ) {
       var obj = WAPI.scope(newMsgId, false, result, null);
       Object.assign(obj, m);
       return obj;

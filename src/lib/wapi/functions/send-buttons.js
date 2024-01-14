@@ -1,4 +1,4 @@
-export async function sendButtons(to, title, buttons, subtitle) {
+export async function sendButtons(to, title, subtitle, buttons) {
   if (typeof title != 'string' || title.length === 0) {
     return WAPI.scope(to, true, 404, 'It is necessary to write a title!');
   }
@@ -70,7 +70,11 @@ export async function sendButtons(to, title, buttons, subtitle) {
     var result = (
       await Promise.all(window.Store.addAndSendMsgToChat(chat, message))
     )[1];
-    if (result === 'success' || result === 'OK') {
+    if (
+      result === 'success' ||
+      result === 'OK' ||
+      result.messageSendResult === 'OK'
+    ) {
       return WAPI.scope(newMsgId, false, result, null);
     } else {
       return WAPI.scope(newMsgId, true, result, null);

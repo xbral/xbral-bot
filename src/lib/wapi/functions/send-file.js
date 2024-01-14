@@ -82,10 +82,19 @@ export async function sendFile(
     if (!newMsgId) {
       return WAPI.scope(chat.id, true, 404, 'Error to newId');
     }
-
+    const chatWid = new Store.WidFactory.createWid(chatid);
+    await Store.Chat.add(
+      {
+        createdLocally: true,
+        id: chatWid
+      },
+      {
+        merge: true
+      }
+    );
     const result = await Store.Chat.find(chat.id)
       .then(async (_chat) => {
-        const mediaBlob = base64ToFile(file);
+        const mediaBlob = base64ToFile(file, filename || 'file');
         return await processFiles(_chat, mediaBlob)
           .then(async (mc) => {
             if (typeof mc === 'object' && mc._models && mc._models[0]) {
@@ -137,6 +146,7 @@ export async function sendFile(
                         chat,
                         message
                       );
+
                       await WAPI.sleep(5000);
                       const statusMsg = chat.msgs._models.filter(
                         (e) => e.id === newMsgId._serialized && e.ack > 0
@@ -153,6 +163,7 @@ export async function sendFile(
                           null
                         );
                         Object.assign(obj, m);
+
                         return obj;
                       }
                     }
@@ -162,6 +173,7 @@ export async function sendFile(
                     chat,
                     message
                   );
+
                   let obj = WAPI.scope(
                     newMsgId,
                     false,
@@ -190,7 +202,7 @@ export async function sendFile(
               return WAPI.scope(chat.id, true, 404, 'Error to models');
             }
           })
-          .catch(() => {
+          .catch((err) => {
             return WAPI.scope(chat.id, true, 404, 'Error to processFiles');
           });
       })
@@ -201,8 +213,11 @@ export async function sendFile(
     if (result.erro === false) {
       return result;
     }
-
-    if (result === 'success' || result === 'OK') {
+    if (
+      result === 'success' ||
+      result === 'OK' ||
+      result.messageSendResult === 'OK'
+    ) {
       var obj = WAPI.scope(newMsgId, false, result, null);
       Object.assign(obj, m);
       return obj;

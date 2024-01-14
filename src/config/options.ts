@@ -24,9 +24,9 @@ export interface options {
   mkdirFolderToken?: string;
   /**
    * Headless chrome
-   * @default true
+   * @default "old"
    */
-  headless?: boolean | 'new';
+  headless?: boolean | 'new' | 'old';
   /**
    * If you want to use browserWSEndpoint
    */
@@ -88,6 +88,11 @@ export interface options {
    * @default false
    */
   devtools?: boolean;
+  /**
+   * Browser executable path
+   * @default null
+   */
+  browserPathExecutable?: string;
 }
 
 export const defaultOptions: options = {
@@ -96,7 +101,7 @@ export const defaultOptions: options = {
   disableWelcome: false,
   BrowserFetcher: true,
   updatesLog: true,
-  headless: true,
+  headless: 'old',
   logQR: true,
   devtools: false,
   mkdirFolderToken: '',
@@ -104,5 +109,6 @@ export const defaultOptions: options = {
   browserArgs: puppeteerConfig.chromiumArgs,
   addBrowserArgs: [],
   autoClose: 120000,
-  addProxy: []
+  addProxy: [],
+  browserPathExecutable: ''
 };

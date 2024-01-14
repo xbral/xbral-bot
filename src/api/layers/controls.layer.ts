@@ -1,9 +1,7 @@
 import { Page, Browser } from 'puppeteer';
 import { CreateConfig } from '../../config/create-config';
 import { UILayer } from './ui.layer';
-import { Scope, checkValuesSender } from '../helpers/layers-interface';
-
-let obj: Scope;
+import { checkValuesSender } from '../helpers/layers-interface';
 
 export class ControlsLayer extends UILayer {
   constructor(
@@ -117,7 +115,7 @@ export class ControlsLayer extends UILayer {
    * @returns boolean
    */
   public async deleteChat(chatId: string) {
-    return this.page.evaluate(
+    return await this.page.evaluate(
       (chatId) => WAPI.deleteConversation(chatId),
       chatId
     );
