@@ -329,7 +329,7 @@ export class SenderLayer extends ListenerLayer {
 
       const result = await this.page.evaluate(
         ({ to, title, subtitle, buttons }) => {
-          return WAPI.sendButtons(to, title, subtitle, buttons);
+          return WAPI.sendButtons(to, title, buttons, subtitle);
         },
         { to, title, subtitle, buttons }
       );
@@ -433,7 +433,7 @@ export class SenderLayer extends ListenerLayer {
     chatId: string,
     url: string,
     title: string,
-    message: string,
+    message: string
   ): Promise<object> {
     return new Promise(async (resolve, reject) => {
       const typeFunction = 'sendLinkPreview';
