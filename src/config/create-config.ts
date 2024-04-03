@@ -127,6 +127,16 @@ export interface CreateConfig {
    * @default null
    */
   browserPathExecutable?: string;
+  /**
+   * Force webpack version of WhatsApp.
+   * @default false
+   */
+  forceWebpack?: boolean;
+  /**
+   * Use a cached version of WhatsApp
+   * @default false
+   */
+  webVersion?: boolean | string;
 }
 
 export const defaultOptions: CreateConfig = {
@@ -151,5 +161,7 @@ export const defaultOptions: CreateConfig = {
   attemptsForceConnectLoad: 5,
   forceConnectTime: 5000,
   addProxy: [],
-  browserPathExecutable: null
+  browserPathExecutable: null,
+  forceWebpack: false,
+  webVersion: false
 };

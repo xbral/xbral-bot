@@ -6,6 +6,7 @@ import { useragentOverride } from '../config/WAuserAgente';
 import { CreateConfig } from '../config/create-config';
 import axios from 'axios';
 import * as path from 'path';
+import fs from 'fs/promises';
 
 export class Whatsapp extends ControlsLayer {
   constructor(
@@ -15,9 +16,9 @@ export class Whatsapp extends ControlsLayer {
     options?: CreateConfig
   ) {
     super(browser, page, session, options);
-    this.initService();
+    this.initService().finally();
     this.page.on('load', async () => {
-      this.initialize();
+      await this.initialize();
       await page
         .waitForSelector('#app .two', { visible: true })
         .catch(() => {});
@@ -28,24 +29,49 @@ export class Whatsapp extends ControlsLayer {
 
   async initService() {
     try {
-      await this.page
-        .waitForFunction('webpackChunkwhatsapp_web_client.length')
-        .catch();
+      // Allow backwards compatibility without specifying any specific options
+      // The assumption is that WA switched away from Webpack at/after 2.3
+      // This can be removed when all browsers have rolled over to new non-webpack version
+      let useWebpack = false;
+      if (
+        this.options.forceWebpack === false &&
+        this.options.webVersion === false
+      ) {
+        const actualWebVersion = await this.page.evaluate(() => {
+          return window['Debug'] && window['Debug'].VERSION
+            ? window['Debug'].VERSION
+            : '';
+        });
 
-      await this.page
-        .addScriptTag({
-          path: require.resolve(path.join(__dirname, '../lib/wapi/', 'wapi.js'))
-        })
-        .catch();
+        const versionNumber = parseFloat(actualWebVersion);
+        useWebpack = versionNumber < 2.3;
+      }
 
-      await this.page
-        .addScriptTag({
-          path: require.resolve(
-            path.join(__dirname, '../lib/middleware', 'middleware.js')
-          )
-        })
-        .catch();
-      this.initialize();
+      if (this.options.forceWebpack === false && !useWebpack) {
+        await this.page.evaluate(() => {
+          window['__debug'] = eval("require('__debug');");
+        });
+      } else {
+        await this.page
+          .waitForFunction('webpackChunkwhatsapp_web_client.length')
+          .catch();
+      }
+
+      let js = await fs.readFile(
+        require.resolve(path.join(__dirname, '../lib/wapi/', 'wapi.js')),
+        'utf-8'
+      );
+      await this.page.evaluate(js);
+
+      let middleware_script = await fs.readFile(
+        require.resolve(
+          path.join(__dirname, '../lib/middleware', 'middleware.js')
+        ),
+        'utf-8'
+      );
+      await this.page.evaluate(middleware_script);
+
+      await this.initialize();
     } catch {}
   }
 
