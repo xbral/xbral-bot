@@ -75,8 +75,8 @@
   ],
   "homepage": "https://github.com/orkestral/venom#readme",
   "devDependencies": {
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-angular": "^17.7.0",
+    "@commitlint/cli": "^19.2.2",
+    "@commitlint/config-angular": "^19.2.2",
     "@types/atob": "^2.1.4",
     "@types/is-root": "^2.1.2",
     "@types/mime-types": "^2.1.0",
@@ -132,7 +132,7 @@
     "ora": "^7.0.1",
     "os": "^0.1.2",
     "puppeteer": "^21.6.1",
-    "puppeteer-core": "^21.6.1",
+    "puppeteer-core": "^22.6.5",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "qrcode": "^1.5.1",
@@ -140,7 +140,7 @@
     "sanitize-filename": "^1.6.3",
     "sharp": "^0.33.1",
     "spinnies": "^0.5.1",
-    "unzipper": "^0.10.14",
+    "unzipper": "^0.11.4",
     "ws": "^8.8.0",
     "yoo-hoo": "^1.2.0"
   }
