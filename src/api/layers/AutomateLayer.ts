@@ -33,7 +33,8 @@ export class AutomateLayer extends ListenerLayer {
       await search_element.click();
       let phone_number = chatId.replace('@c.us', '');
       await this.page.keyboard.type(' ' + phone_number + '\n', { delay: 200 });
-      await this.page.waitForTimeout(3000);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      // await this.page.waitForTimeout(3000);
       return true;
     } catch (error) {
       return false;
@@ -86,7 +87,8 @@ export class AutomateLayer extends ListenerLayer {
 
     for (let i = 0; i < 5; i++) {
       await this.page.keyboard.press('ArrowUp');
-      await this.page.waitForTimeout(500);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // await this.page.waitForTimeout(500);
     }
 
     const [fileChooser] = await Promise.all([
@@ -98,7 +100,8 @@ export class AutomateLayer extends ListenerLayer {
     ]);
     await fileChooser.accept([fileName]);
 
-    await this.page.waitForTimeout(1000);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // await this.page.waitForTimeout(1000);
     await this.typeMultiLine(caption);
     await this.page.keyboard.press('Enter');
 
