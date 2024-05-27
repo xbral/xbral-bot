@@ -2,7 +2,7 @@ import { load } from 'cheerio';
 import axios, { AxiosResponse } from 'axios';
 import { Buffer } from 'buffer';
 
-export async function dowloadMetaFileBase64(url: string): Promise<string> {
+export async function downloadMetaFileBase64(url: string): Promise<string> {
   const backImage =
     'iVBORw0KGgoAAAANSUhEUgAAAGMAAABjCAIAAAAAWSnCAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA0SURBVHhe7cExAQAAAMKg9U9tCj8gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADipAXM+AAFcstx4AAAAAElFTkSuQmCC';
   try {

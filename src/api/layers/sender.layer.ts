@@ -6,7 +6,7 @@ import {
   downloadFileToBase64,
   fileToBase64,
   stickerSelect,
-  dowloadMetaFileBase64
+  downloadMetaFileBase64
 } from '../helpers';
 import { filenameFromMimeType } from '../helpers/filename-from-mimetype';
 import { Message, SendFileResult, SendStickerResult } from '../model';
@@ -474,7 +474,8 @@ export class SenderLayer extends AutomateLayer {
       if (typeof validating === 'object') {
         return reject(validating);
       }
-      const thumbnail = await dowloadMetaFileBase64(url);
+      const thumbnail = await downloadMetaFileBase64(url);
+      await this.page.waitForTimeout(3000);
       const result = await this.page.evaluate(
         ({ chatId, url, title, message, thumbnail }) => {
           return WAPI.sendLinkPreview(chatId, url, title, message, thumbnail);
